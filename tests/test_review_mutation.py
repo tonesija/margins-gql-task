@@ -21,7 +21,7 @@ def test_review_mutation(client: TestClient, seed_sports_classes, mocker):
             rateSportsClass(
                 sportClassReview: {sportsClassId: "%s", rating: 3, comment: "Heyoo"}
             ) {
-                ... on SportsClassRating {
+                ... on SportsClassReview {
                 id
                 sportsClass {
                     id

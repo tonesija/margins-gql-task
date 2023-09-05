@@ -4,12 +4,12 @@ from sqlalchemy import exc
 from sqlalchemy.orm import Session
 
 from app.db.sportclassreview import SportClassReviewModel
-from app.schema.types.sport_class_types import SportsClassRatingInput
+from app.schema.types.sport_class_types import SportsClassReviewInput
 from app.services.exceptions import SportClassNotFound
 
 
 def create_review_service(
-    sport_class_review: SportsClassRatingInput, db: Session
+    sport_class_review: SportsClassReviewInput, db: Session
 ) -> SportClassReviewModel:
     try:
         sport_class_review_db = SportClassReviewModel(

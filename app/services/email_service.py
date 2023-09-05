@@ -27,7 +27,7 @@ conf = ConnectionConfig(
 def verify_email_service(token: str, db: Session):
     """
     Raises:
-        EmailVerificationFailed: _description_
+        EmailVerificationFailed
     """
     hashed_email_recovery_token = sha256(token.encode("utf-8")).hexdigest()
 

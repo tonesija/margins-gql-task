@@ -3,7 +3,7 @@ from app.schema.types.response_types import (
     CreateSportClassEventResponse,
     DeleteSportClassEventResponse,
     GetSportClassResponse,
-    SportCallEventDeleted,
+    SportClassEventDeleted,
     SportClassEventNotExists,
     SportClassNotExists,
     UpdateSportClassResponse,
@@ -83,6 +83,6 @@ def delete_sports_class_event_resolver(
     sport_class_event_id: int, info: Info
 ) -> DeleteSportClassEventResponse:
     if delete_sports_class_event_service(sport_class_event_id, info.context.db):
-        return SportCallEventDeleted()
+        return SportClassEventDeleted()
     else:
         return SportClassEventNotExists()

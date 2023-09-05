@@ -5,7 +5,7 @@ import strawberry
 from app.schema.types.sport_class_types import (
     SportsClass,
     SportsClassEvent,
-    SportsClassRating,
+    SportsClassReview,
 )
 from app.schema.types.user_types import User
 
@@ -46,7 +46,7 @@ class SportClassNotExists:
 
 
 @strawberry.type
-class SportCallEventDeleted:
+class SportClassEventDeleted:
     message: str = "Sport class event deleted"
 
 
@@ -133,11 +133,11 @@ CreateSportClassEventResponse = Annotated[
 ]
 
 DeleteSportClassEventResponse = Annotated[
-    Union[SportCallEventDeleted, SportClassEventNotExists],
+    Union[SportClassEventDeleted, SportClassEventNotExists],
     strawberry.union("DeleteSportClassEventResponse"),
 ]
 
 SportClassReviewResponse = Annotated[
-    Union[SportsClassRating, SportClassNotExists],
+    Union[SportsClassReview, SportClassNotExists],
     strawberry.union("SportClassReviewResponse"),
 ]

@@ -91,9 +91,9 @@ class SportsClass:
         return [User.from_orm(user) for user in self.instance.users]
 
     @strawberry.field(permission_classes=[IsAdmin])
-    def ratings(self) -> list["SportsClassRating"]:
+    def ratings(self) -> list["SportsClassReview"]:
         return [
-            SportsClassRating.from_orm(sport_class_rating_db)
+            SportsClassReview.from_orm(sport_class_rating_db)
             for sport_class_rating_db in self.instance.sport_class_reviews
         ]
 
@@ -142,7 +142,7 @@ class SportsClassEvent:
 
 
 @strawberry.type
-class SportsClassRating:
+class SportsClassReview:
     id: strawberry.ID
     sports_class: "SportsClass"
     rating: int
@@ -206,7 +206,7 @@ class SportClassEventInput:
 
 
 @strawberry.input
-class SportsClassRatingInput:
+class SportsClassReviewInput:
     sports_class_id: strawberry.ID
     rating: int
     comment: str
