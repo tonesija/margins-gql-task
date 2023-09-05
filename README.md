@@ -6,7 +6,10 @@ This diagram shows a simplefied architecture of the app. App is layered, core ap
 
 ![alt text](docs/app_simplified_architecture.png "Title")
 
-App comes with GraphiQL playground at http://127.0.0.1/graphql, where API documentation can be found and be manually tested.
+App comes with GraphiQL playground at http://127.0.0.1:8000/graphql, where API documentation can be found and be manually tested. Authentication is done via JWTs, Use 'Authorization' header for authentication with the access token you get from login or register mutations:
+{
+  "Authorization": "Bearer: <YOUR_JWT_TOKEN>"
+}
 
 #### Starting the app
 
@@ -55,6 +58,7 @@ Many features and improvements have been identified during the development proce
 - better error (response) handling in the schema layer
 - expiry of email verification tokens
 - move authorization layer to the Core app for more granular control (deemed not needed for task)
+- don't use GraphQL inputs as arguements for services
 
 #### Notes:
 
