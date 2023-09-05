@@ -33,6 +33,12 @@ Running tests
 
 ##### With docker compose
 
+- docker compose up --build
+
+Run tests via docker compose:
+
+- docker compose -f docker-compose-test.yml up --abort-on-container-exit --build
+
 #### Would be nice to have
 
 Many features and improvements have been identified during the development, but due to the time constraint and the main goal of this excercise being appraisal of candidate's ability in software development and his opportunity to learn about GraphQL, they were left out.
