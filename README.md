@@ -2,13 +2,17 @@
 
 App is written in Python, using FastAPI framework and Strawberry for GraphQL API.
 
+This diagram shows a simplefied architecture of the app. App is layered, core app layer contains data definition and a set of services for its manipulation, it does not enforce authorization rather provides it. GraphQL API layer consists of schema definitions and resolvers, resolvers use the services and transform data for the GraphQL layer. Alongside them is the execution context, which provides database session, authenitcation and authorization.
+
+![alt text](docs/app_simplified_architecture.png "Title")
+
 #### Starting the app
 
 ##### Without docker compose
 
 Setup (create virtual environment, install deps)
 
-- pyton3 -m venv. venv
+- python3 -m venv .venv
 - source .venv/bin/activate
 - pip install -r requirements
 - copy and rename .env.example to .env and insert your values
@@ -41,11 +45,12 @@ Run tests via docker compose:
 
 #### Would be nice to have
 
-Many features and improvements have been identified during the development, but due to the time constraint and the main goal of this excercise being appraisal of candidate's ability in software development and his opportunity to learn about GraphQL, they were left out.
+Many features and improvements have been identified during the development process, but due to the time constraint and the main goal of this excercise being appraisal of candidate's ability in software development and his opportunity to learn about GraphQL, they were left out.
 
 - database migrations with **alembic**
 - more complete unit and integration tests with **pytest**, along with TDD approach for developing the app
 - cleaner **arrange** step in tests
+- better error handling in the schema layer
 
 #### Notes:
 

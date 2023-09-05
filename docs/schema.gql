@@ -1,0 +1,319 @@
+type AccessToken{
+	accessToken: String!
+}
+
+enum AgeGroup{
+	CHILDREN
+	YOUTH
+	YOUNG_ADULT
+	ADULT
+}
+
+type ClassFull{
+	message: String!
+}
+
+union CreateSportClassEventResponse = SportsClassEvent | SportClassNotExists
+
+"""
+Date with time (isoformat)
+"""
+scalar DateTime
+
+union DeleteSportClassEventResponse = SportCallEventDeleted | SportClassEventNotExists
+
+union DeleteUserResponse = UserDeleted | UserNotExists
+
+union EnrollResponse = User | UserAlreadyEnrolled | UserMaxEnrolled | ClassFull | UserDifferentAgeGroup | SportClassNotExists | UserNotExists
+
+type Enrollment{
+	id: ID!
+	enroll: Boolean!
+	createdAt: DateTime!
+	user: User!
+}
+
+union GetSportClassResponse = SportsClass | SportClassNotExists
+
+union GetUserResponse = User | UserNotExists
+
+type IncorrectLoginCredentials{
+	message: String!
+}
+
+input LoginInput{
+	email: String!
+	password: String!
+}
+
+union LoginResponse = AccessToken | IncorrectLoginCredentials
+
+type Mutation{
+	"""
+	Register user, will send an email verification mail
+	"""
+	registerUser(
+		user: UserInput!
+	): RegisterResponse!
+	"""
+	Verify an account with a generated token
+	"""
+	verifyEmail(
+		token: String!
+	): Boolean!
+	loginUser(
+		loginData: LoginInput!
+	): LoginResponse!
+	"""
+	Enroll yourself to a sports class
+	"""
+	enrollSportsClass(
+		sportsClassId: ID!
+	): EnrollResponse!
+	"""
+	Unenroll yourself from a sports class
+	"""
+	unenrollSportsClass(
+		sportsClassId: ID!
+	): UnEnrollResponse!
+	"""
+	Leave an anonymous review of a sports class
+	"""
+	rateSportsClass(
+		sportClassReview: SportsClassRatingInput!
+	): SportClassReviewResponse!
+	"""
+	Admin only action
+	
+	Delete some user (with all his data, and enrollment history)
+	"""
+	deleteUser(
+		userId: Int!
+	): DeleteUserResponse!
+	"""
+	Admin only action
+	
+	Enroll some user to a sports class
+	"""
+	enrollSomeUserSportsClass(
+		userId: ID!
+		sportsClassId: ID!
+	): EnrollResponse!
+	"""
+	Admin only action
+	
+	Unenroll some user to a sports class
+	"""
+	unenrollSomeUserSportsClass(
+		userId: ID!
+		sportsClassId: ID!
+	): UnEnrollResponse!
+	"""
+	Admin only action
+	
+	Create a sports class
+	"""
+	createSportsClass(
+		sportClass: SportClassInput!
+	): SportsClass!
+	"""
+	Admin only action
+	
+	Update a sports class
+	"""
+	updateSportsClass(
+		sportClass: SportClassUpdateInput!
+	): UpdateSportClassResponse!
+	"""
+	Admin only action
+	
+	Create a sports class event (exact class time-window)
+	"""
+	createSportsClassEvent(
+		sportClassEvent: SportClassEventInput!
+	): CreateSportClassEventResponse!
+	"""
+	Admin only action
+	
+	Delete a sports class event
+	"""
+	deleteSportsClassEvent(
+		sportClassEventId: Int!
+	): DeleteSportClassEventResponse!
+}
+
+type Query{
+	"""
+	Query all sports
+	"""
+	sports: [Sport!]!
+	"""
+	Query all sport classes with the use of optional filter
+	"""
+	sportsClasses(
+		sportClassFilter: SportClassFilterInput!
+	): [SportsClass!]!
+	"""
+	Query a specific sports class
+	"""
+	sportsClass(
+		sportClassId: Int!
+	): GetSportClassResponse!
+	"""
+	Get yourself (currently logged in user)
+	"""
+	me: User!
+	"""
+	Admin only action
+	Get any user
+	"""
+	user(
+		userId: Int!
+	): GetUserResponse!
+	"""
+	Admin only action
+	
+	Get all users
+	"""
+	users: [User!]!
+}
+
+union RegisterResponse = AccessToken | UserExists
+
+type Sport{
+	id: ID!
+	name: String!
+	classes: [SportsClass!]!
+}
+
+type SportCallEventDeleted{
+	message: String!
+}
+
+input SportClassEventInput{
+	sportsClassId: ID!
+	startsAt: DateTime!
+	duration: Int
+}
+
+type SportClassEventNotExists{
+	message: String!
+}
+
+input SportClassFilterInput{
+	ageGroups: [AgeGroup!]!
+	sportIds: [ID!]!
+}
+
+input SportClassInput{
+	sportId: ID!
+	ageGroup: AgeGroup!
+	description: String!
+}
+
+type SportClassNotExists{
+	message: String!
+}
+
+union SportClassReviewResponse = SportsClassRating | SportClassNotExists
+
+input SportClassUpdateInput{
+	sportClassId: ID!
+	sportId: ID!
+	ageGroup: AgeGroup!
+	description: String!
+}
+
+type SportsClass{
+	id: ID!
+	sport: Sport!
+	ageGroup: AgeGroup!
+	description: String!
+	averageRating: Float
+	sportsClassEvents(
+		dateStart: DateTime = null
+		dateEnd: DateTime = null
+	): [SportsClassEvent!]!
+	users: [User!]!
+	ratings: [SportsClassRating!]!
+	enrollments(
+		dateStart: DateTime = null
+		dateEnd: DateTime = null
+	): [Enrollment!]!
+}
+
+type SportsClassEvent{
+	id: ID!
+	sportsClass: SportsClass!
+	startsAt: DateTime!
+	duration: Int
+}
+
+type SportsClassRating{
+	id: ID!
+	sportsClass: SportsClass!
+	rating: Int!
+	comment: String!
+}
+
+input SportsClassRatingInput{
+	sportsClassId: ID!
+	rating: Int!
+	comment: String!
+}
+
+union UnEnrollResponse = User | UserNotExists | UserNotEnrolled | SportClassNotExists
+
+union UpdateSportClassResponse = SportsClass | SportClassNotExists
+
+type User{
+	id: ID!
+	name: String!
+	email: String!
+	ageGroup: AgeGroup!
+	enrolledClasses: [SportsClass!]!
+	enrollments(
+		dateStart: DateTime = null
+		dateEnd: DateTime = null
+	): [Enrollment!]!
+}
+
+type UserAlreadyEnrolled{
+	message: String!
+}
+
+type UserDeleted{
+	message: String!
+}
+
+type UserDifferentAgeGroup{
+	message: String!
+}
+
+type UserExists{
+	message: String!
+}
+
+input UserInput{
+	name: String!
+	email: String!
+	password: String!
+	ageGroup: AgeGroup!
+}
+
+type UserMaxEnrolled{
+	message: String!
+}
+
+type UserNotEnrolled{
+	message: String!
+}
+
+type UserNotExists{
+	message: String!
+}
+
+schema{
+	query: Query
+	mutation: Mutation
+}
