@@ -50,7 +50,9 @@ Many features and improvements have been identified during the development proce
 - database migrations with **alembic**
 - more complete unit and integration tests with **pytest**, along with TDD approach for developing the app
 - cleaner **arrange** step in tests
-- better error handling in the schema layer
+- better error (response) handling in the schema layer
+- expiry of email verification tokens
+- move authorization layer to the Core app for more granular control (deemed not needed for task)
 
 #### Notes:
 
