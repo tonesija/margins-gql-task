@@ -6,6 +6,8 @@ This diagram shows a simplefied architecture of the app. App is layered, core ap
 
 ![alt text](docs/app_simplified_architecture.png "Title")
 
+App comes with GraphiQL playground at http://127.0.0.1/graphql, where API documentation can be found and be manually tested.
+
 #### Starting the app
 
 ##### Without docker compose
